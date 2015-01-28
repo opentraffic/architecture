@@ -11,6 +11,7 @@ As currently conceived the traffic pool will be operated by a non-profit entity 
 ### Components
 
 ![architecture diagram](https://docs.google.com/drawings/d/1sGqv2nPg9K1uWwD846W7mb1anQO1ZyugMjpKYT_Pl-4/pub?w=878&h=706)
+https://docs.google.com/a/conveyal.com/drawings/d/1sGqv2nPg9K1uWwD846W7mb1anQO1ZyugMjpKYT_Pl-4/edit
 
 This project is designed as a data pool that connects entities and individuals with real-time location data with processing, data storage, and routing and analysis applications. A primary design goal is enabling data contributors to share derived traffic statistics without sharing underlying GPS location data or fleet information. Additionally contributors to the pool gain access to routing and analysis tools that enable them to immediately utilize derived traffic data.
 
