@@ -2,7 +2,7 @@
 
 Real-time and historical traffic speed data is a critical input for most transportation and transport analysis applications. Currently traffic speed data is absent from OpenStreetMap (OSM), undermining its value as basemap for transport applications. Commercial data sets are available for some locations, however, licensing terms and prices are prohibitive for many potential applications. And many areas of the world, particularly developing countries do not have commercial traffic data sets.
 
-This project aims to develop a non-commercial global traffic speed data set linked to OpenStreetMap and built on open source software. Speed data are derived from GPS probe data pooled from fleet operators, transportation network companies (TNCs) and app and device makers. The GPS location data is converted into OSM segment-linked speed measurements and strippped of any identifying information about the source and/or journey. The speed data is archived to support real-time and historical analysis applications.
+This project aims to develop a non-commercial global traffic speed data set linked to OpenStreetMap and built on open source software. Speed data are derived from GPS probe data pooled from fleet operators and app and device makers. The GPS location data is converted into OSM segment-linked speed measurements and strippped of any identifying information about the source and/or journey. The speed data is archived to support real-time and historical analysis applications.
  
 In return for sharing location-derived traffic data, in addition to traffic data itself, pool contributors gain access to a real-time routing API that provides travel time estimates based on current conditions. Additionally they can provide local government partners with access to a traffic monitoring and analysis portal that unlocks public benefit from location data.
 
@@ -18,7 +18,7 @@ This project is designed as a data pool that connects entities and individuals w
 The pool consists of several related components:
 
 #### Traffic Engine
-The Traffic Engine (TE) translates vehicle location to OSM-linked speed estimates. By design the TE can be run inside a fleet operator or TNC allowing internal conversion from GPS location data to to traffic statistics. This ensures that the only data to leave the data provider’s network are fully anonymized traffic statistics.
+The Traffic Engine (TE) translates vehicle location to OSM-linked speed estimates. By design the TE can be run inside a fleet operator allowing internal conversion from GPS location data to to traffic statistics. This ensures that the only data to leave the data provider’s network are fully anonymized traffic statistics.
 
 Similarly, a version of the TE SDK can be embedded into consumer applications or GPS-enabled devices allowing direct calculation and sharing of traffic statics on the device. This helps address privacy concerns for sharing location data and significantly reduces power consumption and data transfer by contributing traffic statistics.
 
