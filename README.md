@@ -5,6 +5,7 @@ Real-time and historical traffic speed data is a critical input for most transpo
 This project aims to develop a non-commercial global traffic speed data set linked to OpenStreetMap and built on open source software. Speed data are derived from GPS probe data pooled from fleet operators and app and device makers. The GPS location data is converted into OSM segment-linked speed measurements and strippped of any identifying information about the source and/or journey. The speed data is archived to support real-time and historical analysis applications.
  
 As currently conceived the traffic pool will be operated by a non-profit entity with a mission to improve access to traffic data and with the responsibility for coordinating activities of pool stakeholders.  The exact structure of this entity will be determined in collaboration with stakeholders.
+
  
 ### Components
 
@@ -30,9 +31,6 @@ The pool will create a static archival snapshot of traffic data and a real-time 
 
 #### Real-time Routing API
 The pool provides multiple interfaces to conditions data, including a real-time routing API available for use by pool contributors. This enables contributors to derive direct benefit from shared data by generating routing and arrival time estimates. 
-
-#### Traffic Monitoring and Analysis UI
-The pool will also provide traffic monitoring and analysis applications specifically design for government users. This will unlock value of contributed data improving transport outcomes and allow data contributors to directly share their derived traffic data with local government partners.
  
 #### OSM Trace Data + Map Dust?
 In addition to storing GPS-derived traffic data there may be value in storing and analyzing trace data to improve the basemap. These traces could include existing OSM GPX trace data sets as well as new trace data collected via the Traffic Engine to the extent that data privacy considerations allow. These traces could be processed to generate OSM “map dust” (missing links, poorly documented turn/directional restrictions etc.) and incorporated into OSM data improvement workflows.
