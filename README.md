@@ -27,7 +27,7 @@ The Traffic Data Pool is a central storage repository for speed observations. Th
 The pool collects traffic observations from contributors and provides access to an aggregate real-time snapshot of traffic conditions, as well a historical archive of observation data in support of analytic applications.
 
 #### OSM-linked Traffic Data Set 
-The pool will create a static archival snapshot of traffic data and a real-time feed for use by third-party application developers. This will enable developers to incorporate traffic data sets into routing, mapping and analytic applications without restriction for any location where data is available.
+The pool will create a static archival snapshot of traffic data and a real-time feed for use by third-party application developers. This will enable developers to incorporate traffic data sets into routing, mapping and analytic applications without restriction for any location where data is available. This data set will include one or more linear referencing methods to link traffic data to OSM or other non-OSM basemaps.
 
 #### Real-time Routing API
 The pool provides multiple interfaces to conditions data, including a real-time routing API available for use by pool contributors. This enables contributors to derive direct benefit from shared data by generating routing and arrival time estimates. 
