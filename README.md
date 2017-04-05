@@ -1,38 +1,73 @@
-### Concept
+# Open Traffic v2 platform
 
-Real-time and historical traffic speed data is a critical input for most transportation and transport analysis applications. Currently traffic speed data is absent from OpenStreetMap (OSM), undermining its value as basemap for transport applications. Commercial data sets are available for some locations, however, licensing terms and prices are prohibitive for many potential applications. And many areas of the world, particularly developing countries do not have commercial traffic data sets.
+Open Traffic is a global data platform to process anonymous positions of vehicles and smartphones into real-time and historical traffic statistics. We're building this in the open, using fully open-source software, with involvement from a growing list of partners.
 
-This project aims to develop a non-commercial global traffic speed data set linked to OpenStreetMap and built on open source software. Speed data are derived from GPS probe data pooled from fleet operators and app and device makers. The GPS location data is converted into OSM segment-linked speed measurements and strippped of any identifying information about the source and/or journey. The speed data is archived to support real-time and historical analysis applications.
- 
-As currently conceived the traffic pool will be operated by a non-profit entity with a mission to improve access to traffic data and with the responsibility for coordinating activities of pool stakeholders.  The exact structure of this entity will be determined in collaboration with stakeholders.
+After a successful proof-of-concept by the World Bank, Grab, and Conveyal (known as OTv1), Mapzen is working with the partners to build out a new version of the platform that will scale to have global coverage (known as OTv2).
 
- 
-### Components
+## Technical architecture
 
-![architecture diagram](https://docs.google.com/drawings/d/1sGqv2nPg9K1uWwD846W7mb1anQO1ZyugMjpKYT_Pl-4/pub?w=878&h=706)
-https://docs.google.com/a/conveyal.com/drawings/d/1sGqv2nPg9K1uWwD846W7mb1anQO1ZyugMjpKYT_Pl-4/edit
+![](images/otv2-architecture-component-diagram.svg)
 
-This project is designed as a data pool that connects entities and individuals with real-time location data with processing, data storage, and routing and analysis applications. A primary design goal is enabling data contributors to share derived traffic statistics without sharing underlying GPS location data or fleet information. Additionally contributors to the pool gain access to routing and analysis tools that enable them to immediately utilize derived traffic data.
+<!-- https://drive.google.com/open?id=1ByaTsaVZOfktk14ev57kM7qIqH1Da3dS9UtiTrTPJpU -->
 
-The pool consists of several related components:
+## Data flows
 
-#### Traffic Engine
-The Traffic Engine (TE) translates vehicle location to OSM-linked speed estimates. By design the TE can be run inside a fleet operator allowing internal conversion from GPS location data to to traffic statistics. This ensures that the only data to leave the data provider’s network are fully anonymized traffic statistics.
+![](images/otv2-data-flows-diagram.svg)
 
-Similarly, a version of the TE SDK can be embedded into consumer applications or GPS-enabled devices allowing direct calculation and sharing of traffic statics on the device. This helps address privacy concerns for sharing location data and significantly reduces power consumption and data transfer by contributing traffic statistics.
+<!-- https://docs.google.com/a/mapzen.com/drawings/d/146rb5VQ1js5_NZ-lP_Dh3t8nkkDcb2Bmibsncp05VLA/edit?usp=sharing -->
 
-#### Traffic Data Pool
-The Traffic Data Pool is a central storage repository for speed observations. The pool is operated by a non-commercial entity ensuring security of the data and continuity of operations. 
+## System Components
 
-The pool collects traffic observations from contributors and provides access to an aggregate real-time snapshot of traffic conditions, as well a historical archive of observation data in support of analytic applications.
+### OSMLR segment generation
 
-#### OSM-linked Traffic Data Set 
-The pool will create a static archival snapshot of traffic data and a real-time feed for use by third-party application developers. This will enable developers to incorporate traffic data sets into routing, mapping and analytic applications without restriction for any location where data is available. This data set will include one or more linear referencing methods to link traffic data to OSM or other non-OSM basemaps.
+The [OSMLR application](https://github.com/opentraffic/osmlr) creates traffic segments according to the [OSMLR tile spec](https://github.com/opentraffic/osmlr-tile-spec). Outputs are in protocol buffer and GeoJSON formats. This process will be run on a regular basis, on centralized servers, with the resulting worldwide OSMLR tile set available for free use by all.
 
-#### Real-time Routing API
-The pool provides multiple interfaces to conditions data, including a real-time routing API available for use by pool contributors. This enables contributors to derive direct benefit from shared data by generating routing and arrival time estimates. 
- 
-#### OSM Trace Data + Map Dust?
-In addition to storing GPS-derived traffic data there may be value in storing and analyzing trace data to improve the basemap. These traces could include existing OSM GPX trace data sets as well as new trace data collected via the Traffic Engine to the extent that data privacy considerations allow. These traces could be processed to generate OSM “map dust” (missing links, poorly documented turn/directional restrictions etc.) and incorporated into OSM data improvement workflows.
+→ See [this blog post](https://mapzen.com/blog/open-traffic-osmlr-technical-preview) for an introduction to OSMLR. 
 
+### Reporter
 
+Reporter takes in raw GPS probe data, matches it to OSMLR segments using [Valhalla Meili](https://github.com/valhalla/valhalla/blob/master/docs/meili.md), and sends segments and speeds to the centralized Open Traffic Datastore.
+
+Reporter is available as a set of Docker containers, or can be run anywhere Python and Redis are available.
+
+Reporter expects its input of GPS points as HTTP requests. It also includes a script to parse CSV files and generate the appropriate HTTP requests. The code can be customized to act on a stream (such as Apache Kafka or AWS Kinesis).
+
+(In OTv1, this component was called the [Traffic Engine](https://github.com/opentraffic/traffic-engine).)
+
+→ See more documentation in [the Reporter repository](https://github.com/opentraffic/reporter).
+
+### Datastore
+
+The [Datastore](https://github.com/opentraffic/datastore) ingests input from distributed [Reporter](https://github.com/opentraffic/reporter) instances. Its contents can be queried using the [Open Traffic API](https://github.com/opentraffic/api). The Datastore is also used to created processed data products.
+
+API outputs and processed data products include a range of statistics computed on anonymized and aggregated traffic speeds. Statistics are associated with OSMLR segments.
+
+(In OTv1, this component was called the Data Pool. Its API was called the [Traffic Engine App](https://github.com/opentraffic/traffic-engine-app).)
+
+### Analysis web interfaces
+
+For users unable to directly query an API or parse a static data extract, OTv2 will provide a simple web app for performing basic queries.
+
+(In OTv1, this component was the [Traffic Engine App](https://github.com/opentraffic/traffic-engine-app).) Here is a screenshot of the OTv1 interface in action:
+
+![](images/otv1-traffic-engine-app-screenshot.png)
+
+Slightly more advanced users are provided with sample queries in Jupyter Notebooks, which they can expand using Python tooling (such as SciPy, Pandas, and Matplotlib).
+
+### Traffic-influenced routing engine
+
+The [Valhalla routing engine](https://github.com/valhalla) will offer journey-planning that is weighted by historical and real-time speeds.
+
+→ See [this blog post](https://mapzen.com/blog/speed-tiles/) for a proof-of-concept using traffic speeds to influence Valhalla routing.
+
+### Traffic maps
+
+The Datastore will also generate static data extracts that can be used to power user-facing traffic maps.
+
+→ See [this demo](https://mapzen.github.io/open-traffic-poc-data-demo/) using the Tangram map rendering library to display an entire day's worth of traffic in Manila (from the OTv1 platform). Here is an animated screenshot of some of the map:
+
+![](images/otv1-tangram-map-demo-animation.gif)
+
+→ See [this code](https://github.com/opentraffic/tangram-viz-experiments) using the Tangram map rendering library to display speeds from the OTv2 API. Here is a screenshot of this map showing traffic in Singapore:
+
+![](images/otv2-tangram-demo-map-screenshot.png)
