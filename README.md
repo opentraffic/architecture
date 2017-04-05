@@ -6,13 +6,13 @@ After a successful proof-of-concept by the World Bank, Grab, and Conveyal (known
 
 ## Technical architecture
 
-![](images/otv2-architecture-component-diagram.svg)
+![](images/otv2-architecture-component-diagram.png)
 
 <!-- https://drive.google.com/open?id=1ByaTsaVZOfktk14ev57kM7qIqH1Da3dS9UtiTrTPJpU -->
 
 ## Data flows
 
-![](images/otv2-data-flows-diagram.svg)
+![](images/otv2-data-flows-diagram.png)
 
 <!-- https://docs.google.com/a/mapzen.com/drawings/d/146rb5VQ1js5_NZ-lP_Dh3t8nkkDcb2Bmibsncp05VLA/edit?usp=sharing -->
 
