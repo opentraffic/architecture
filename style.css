@@ -1,0 +1,50 @@
+/* thanks to https://www.sitepoint.com/css3-tabs-using-target-selector/ for the
+ * tabs stuff.
+ */
+
+article.tabs {
+    position: relative;
+    display: block;
+    width: 48em;
+    height: 15em;
+    margin: 2em auto;
+}
+
+article.tabs section {
+    position: absolute;
+    display: block;
+    top: 1.8em;
+    left: 0;
+    height: 12em;
+    padding: 10px 20px;
+    background-color: #ddd;
+    border-radius: 5px;
+    box-shadow: 0 3px 3px rgba(0,0,0,0.1);
+    z-index: 0;
+}
+
+article.tabs section:target {
+    color: #333;
+    background-color: #fff;
+    z-index: 2;
+}
+
+article.tabs section {
+    width: 48em;
+}
+
+svg a:hover path {
+    stroke: yellow !important;
+    stroke-width: 10px !important;
+    stroke-opacity: 0.5 !important;
+    stroke-linecap: round !important;
+    stroke-linejoin: round !important;
+}
+
+svg a:target path {
+    stroke: red !important;
+    stroke-width: 10px !important;
+    stroke-opacity: 0.5 !important;
+    stroke-linecap: round !important;
+    stroke-linejoin: round !important;
+}
