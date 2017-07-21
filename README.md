@@ -1,3 +1,5 @@
+***The documentation and issues in this repository describe the OTv1 platform. The basic goals remain the same for Open Traffic, although some of the specifics of the OTv2 architecture have changed. For more information, see [opentraffic/otv2-platform](https://github.com/opentraffic/otv2-platform).***
+
 ### Concept
 
 Real-time and historical traffic speed data is a critical input for most transportation and transport analysis applications. Currently traffic speed data is absent from OpenStreetMap (OSM), undermining its value as basemap for transport applications. Commercial data sets are available for some locations, however, licensing terms and prices are prohibitive for many potential applications. And many areas of the world, particularly developing countries do not have commercial traffic data sets.
